@@ -181,6 +181,24 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll(); // Check on init
 
+  // --- Resume Attention Pulse ---
+  const resumeLinks = document.querySelectorAll('a[href="#resume-download"]');
+  const resumeTarget = document.querySelector('#resume-download a');
+
+  if (resumeTarget) {
+    resumeLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        resumeTarget.classList.remove('pulse-highlight');
+        void resumeTarget.offsetWidth; // Trigger reflow to restart animation
+        resumeTarget.classList.add('pulse-highlight');
+      });
+    });
+
+    resumeTarget.addEventListener('animationend', () => {
+      resumeTarget.classList.remove('pulse-highlight');
+    });
+  }
+
   // --- Dark Mode Theme Toggle ---
   const themeToggleBtn = document.querySelector('.theme-toggle-btn');
   const moonIcon = themeToggleBtn.querySelector('.moon-icon');
