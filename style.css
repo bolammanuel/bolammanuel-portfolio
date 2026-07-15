@@ -1557,5 +1557,120 @@ footer a {
   }
 }
 
+.articles-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.writing-actions {
+  margin-top: 3.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.article-row {
+  display: grid;
+  grid-template-columns: 0.25fr 1fr 0.1fr;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border-light);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-smooth);
+}
+
+.article-row:first-child {
+  border-top: 1px solid var(--border-light);
+}
+
+.article-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.article-date {
+  font-family: var(--font-subheading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.article-platform {
+  display: inline-flex;
+  align-self: flex-start;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.article-info h3 {
+  font-family: var(--font-subheading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+  color: var(--text-color);
+  line-height: 1.3;
+  transition: var(--transition-smooth);
+}
+
+.article-info p {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.article-arrow {
+  display: flex;
+  justify-content: flex-end;
+  color: var(--text-muted);
+  transition: var(--transition-smooth);
+}
+
+.article-row:hover .article-info h3 {
+  color: var(--accent-color);
+}
+
+.article-row:hover .article-arrow {
+  color: var(--accent-color);
+  transform: translateX(8px);
+}
+
+@media (max-width: 992px) {
+  .article-row {
+    grid-template-columns: 0.3fr 1fr 0.1fr;
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+  .article-info h3 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .article-row {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.75rem 0;
+  }
+  .article-meta {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+  .article-arrow {
+    display: none;
+  }
+}
+
 
 

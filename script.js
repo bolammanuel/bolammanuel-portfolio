@@ -210,4 +210,111 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // --- Dynamic Medium Articles Integration ---
+  const initMediumArticles = async () => {
+    const articlesContainer = document.querySelector('.articles-list');
+    if (!articlesContainer) return;
+
+    const rssFeedUrl = 'https://medium.com/feed/@bolammanuel';
+    const jsonApiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
+
+    try {
+      const response = await fetch(jsonApiUrl);
+      if (!response.ok) throw new Error('Failed to fetch articles');
+      const data = await response.json();
+      
+      if (data.status !== 'ok' || !data.items || data.items.length === 0) {
+        throw new Error('Invalid feed data');
+      }
+
+      // Format date helper (e.g. "2026-03-15 10:24:00" -> "Mar 2026")
+      const formatDate = (dateStr) => {
+        try {
+          const date = new Date(dateStr.replace(/-/g, "/"));
+          return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        } catch (e) {
+          return dateStr;
+        }
+      };
+
+      // Strip HTML helper and extract clean text snippet
+      const getSnippet = (htmlContent) => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent || '';
+        const figures = tempDiv.querySelectorAll('figure');
+        figures.forEach(fig => fig.remove());
+        let text = tempDiv.textContent || tempDiv.innerText || '';
+        text = text.trim().replace(/\s+/g, ' ');
+        if (text.length > 150) {
+          return text.substring(0, 150) + '...';
+        }
+        return text;
+      };
+
+      // Determine publication platform helper
+      const getPlatform = (link) => {
+        if (link.includes('stackademic')) return 'Stackademic';
+        return 'Medium';
+      };
+
+      const latestArticles = data.items.slice(0, 3);
+      
+      let htmlContent = '';
+      latestArticles.forEach(item => {
+        const title = item.title;
+        const link = item.link;
+        const date = formatDate(item.pubDate);
+        const platform = getPlatform(link);
+        const snippet = getSnippet(item.description || item.content);
+
+        htmlContent += `
+          <a href="${link}" target="_blank" rel="noopener noreferrer" class="article-row">
+            <div class="article-meta">
+              <span class="article-date">${date}</span>
+              <span class="article-platform">${platform}</span>
+            </div>
+            <div class="article-info">
+              <h3>${title}</h3>
+              <p>${snippet}</p>
+            </div>
+            <div class="article-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </a>
+        `;
+      });
+
+      articlesContainer.innerHTML = htmlContent;
+
+      // Render "Read More" button if total items in feed exceeds 3
+      let readMoreBtn = document.querySelector('.writing-actions');
+      if (data.items.length > 3) {
+        if (!readMoreBtn) {
+          readMoreBtn = document.createElement('div');
+          readMoreBtn.className = 'writing-actions';
+          readMoreBtn.innerHTML = `
+            <a href="https://medium.com/@bolammanuel" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+              Read More on Medium
+            </a>
+          `;
+          articlesContainer.after(readMoreBtn);
+        } else {
+          readMoreBtn.style.display = 'flex';
+        }
+      } else {
+        if (readMoreBtn) {
+          readMoreBtn.style.display = 'none';
+        }
+      }
+
+    } catch (error) {
+      console.warn('Medium integration error, falling back to static markup:', error);
+    }
+  };
+
+  initMediumArticles();
+
 });
