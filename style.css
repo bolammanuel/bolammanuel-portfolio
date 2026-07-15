@@ -176,6 +176,10 @@ header .cta-nav:hover {
   color: var(--white);
 }
 
+.mobile-cv-btn {
+  display: none;
+}
+
 /* Mobile Menu Button */
 .menu-btn {
   display: none;
@@ -202,6 +206,42 @@ header.menu-open button {
   }
   .menu-btn {
     display: block;
+  }
+  .mobile-cv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--black);
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 99px;
+    padding: 0.45rem 0.9rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: var(--transition-smooth);
+    margin-left: auto;
+    margin-right: 1.2rem;
+    z-index: 101;
+  }
+  .mobile-cv-btn:hover {
+    background-color: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+  .dark-theme .mobile-cv-btn {
+    color: var(--white);
+    border-color: var(--border-color);
+  }
+  .dark-theme .mobile-cv-btn:hover {
+    background-color: var(--white);
+    color: var(--black);
+    border-color: var(--white);
+  }
+  header.menu-open .mobile-cv-btn {
+    display: none !important;
   }
 }
 
@@ -513,6 +553,10 @@ header.menu-open button {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
+}
+
+.about-actions {
+  margin-top: 2rem;
 }
 
 /* Three-Cell Stats Bar */
@@ -1044,6 +1088,12 @@ header.menu-open button {
   transition: var(--transition-smooth);
 }
 
+.contact-detail-item a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .contact-detail-item a:hover {
   color: var(--accent-color);
 }
@@ -1498,21 +1548,5 @@ footer a {
   }
 }
 
-/* Attention pulse animation when landing on Resume section */
-.pulse-highlight {
-  animation: pulse-attention 1.5s ease-in-out 3;
-  transform-origin: left center;
-}
 
-@keyframes pulse-attention {
-  0%, 100% {
-    color: var(--black);
-    transform: scale(1);
-  }
-  50% {
-    color: var(--accent-color);
-    transform: scale(1.08);
-    text-shadow: 0 0 12px rgba(230, 62, 38, 0.5);
-  }
-}
 
