@@ -19,6 +19,9 @@
   /* Grid & Spacing */
   --container-max-width: 1200px;
   --section-padding: 8rem 2rem;
+  --header-padding-x: 2rem;
+  --header-padding-y: 1.5rem;
+  --header-scrolled-padding-y: 1rem;
   
   /* Easing */
   --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -57,6 +60,7 @@ html, body {
   background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
 }
 
 body {
@@ -96,7 +100,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1.5rem 2rem;
+  padding: var(--header-padding-y) var(--header-padding-x);
   z-index: 100;
   display: flex;
   justify-content: space-between;
@@ -107,7 +111,7 @@ header {
 header.scrolled {
   background-color: rgba(244, 244, 243, 0.85);
   backdrop-filter: blur(12px);
-  padding: 1rem 2rem;
+  padding: var(--header-scrolled-padding-y) var(--header-padding-x);
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -201,6 +205,11 @@ header.menu-open button {
 }
 
 @media (max-width: 992px) {
+  :root {
+    --header-padding-x: 1.5rem;
+    --header-padding-y: 1.25rem;
+    --header-scrolled-padding-y: 0.85rem;
+  }
   header nav {
     display: none;
   }
@@ -212,33 +221,24 @@ header.menu-open button {
     align-items: center;
     gap: 0.4rem;
     font-family: var(--font-heading);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--black);
+    color: var(--text-color);
     background-color: transparent;
     border: 1px solid var(--border-color);
     border-radius: 99px;
-    padding: 0.45rem 0.9rem;
+    padding: 0.4rem 0.8rem;
     text-decoration: none;
     text-transform: uppercase;
     transition: var(--transition-smooth);
     margin-left: auto;
-    margin-right: 1.2rem;
+    margin-right: 0.8rem;
     z-index: 101;
   }
   .mobile-cv-btn:hover {
-    background-color: var(--black);
-    color: var(--white);
-    border-color: var(--black);
-  }
-  .dark-theme .mobile-cv-btn {
-    color: var(--white);
-    border-color: var(--border-color);
-  }
-  .dark-theme .mobile-cv-btn:hover {
-    background-color: var(--white);
-    color: var(--black);
-    border-color: var(--white);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-color: var(--text-color);
   }
   header.menu-open .mobile-cv-btn {
     display: none !important;
@@ -1304,18 +1304,27 @@ footer a {
   }
 }
 
+/* Extra compact styling on very narrow screens */
+@media (max-width: 360px) {
+  .mobile-cv-btn svg {
+    display: none;
+  }
+  .mobile-cv-btn {
+    padding: 0.35rem 0.7rem;
+  }
+}
+
 /* Extra Responsive Audits for smaller viewports (< 480px) */
 @media (max-width: 480px) {
   :root {
     --section-padding: 3.5rem 1rem;
+    --header-padding-x: 1rem;
+    --header-padding-y: 1rem;
+    --header-scrolled-padding-y: 0.75rem;
   }
 
   body {
     word-break: break-word;
-  }
-
-  header {
-    padding: 1rem;
   }
 
   header .logo {
